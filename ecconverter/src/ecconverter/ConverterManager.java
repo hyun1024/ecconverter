@@ -17,6 +17,7 @@ public class ConverterManager {
 	
 	
 	public Converter createConverter(String convertTarget) {
+		fs.findResultPath();
 		switch(convertTarget) {
 		case "csv" : return new CsvToExcelConverter(lm, fs, nm);
 		case "excel" : return new ExcelToCsvConverter(lm, nm);
