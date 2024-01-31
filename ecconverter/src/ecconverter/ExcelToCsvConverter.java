@@ -40,6 +40,7 @@ public class ExcelToCsvConverter implements Converter {
 		HSSFWorkbook workbook = new HSSFWorkbook(target);
 		HSSFSheet sheet= workbook.getSheetAt(0);
 		BufferedWriter bw= new BufferedWriter(new FileWriterWithEncoding(CREATE_PATH, Config.ENCODING_NAME));
+		Boolean escape;
 		for(int i=sheet.getFirstRowNum(); i<=sheet.getLastRowNum(); i++) {
 			HSSFRow row = sheet.getRow(i);
 			for(int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) {
@@ -48,7 +49,7 @@ public class ExcelToCsvConverter implements Converter {
 				}
 				HSSFCell cell = row.getCell(j);
 				String cellValue=cellReader.read(cell);
-				Boolean escape=false;
+				escape=false;
 				if(cellValue.contains(",") || cellValue.contains("\"")) {
 					cellValue = cellValue.replaceAll("\"", "\"\"");
 					bw.write("\"");

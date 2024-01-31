@@ -6,7 +6,7 @@ import java.util.Queue;
 
 public class WorkManager {
 	
-	//TODO 의존성관리 분리하기
+	//TODO 주입관리자 분리?
 	ListManager lm = new ListManager();
 	NameMaker nm = new NameMaker();
 	FileScanner fs = new FileScanner();
