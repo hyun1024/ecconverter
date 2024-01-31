@@ -28,7 +28,7 @@ public class CsvToExcelConverter implements Converter{
 		this.nm=nm;
 	}
 	public void convert(String type, String filename) throws IOException {
-		String TARGET_PATH = nm.createCsvName(filename);
+		String TARGET_PATH = nm.readCsvName(filename);
 		fs.makeList(TARGET_PATH, lineList);
 		int reference=Config.MAX_ROW_COUNT*2;
 		if(lineList.size()>reference) {
