@@ -33,7 +33,7 @@ public class ExcelToCsvConverter implements Converter {
 		}
 	}
 	public void xlsToCsv(String filename) throws IOException {
-		String TARGET_PATH = nm.createXlsName(filename);
+		String TARGET_PATH = nm.readXlsName(filename);
 		String CREATE_PATH = nm.createCsvName(filename);
 
 		FileInputStream target= new FileInputStream(TARGET_PATH);
@@ -68,7 +68,7 @@ public class ExcelToCsvConverter implements Converter {
 		 target.close();
 	}
 	public void xlsxToCsv(String filename) throws IOException {
-		String TARGET_PATH = nm.createXlsxName(filename);
+		String TARGET_PATH = nm.readXlsxName(filename);
 		String CREATE_PATH = nm.createCsvName(filename);
 		FileInputStream target= new FileInputStream(TARGET_PATH);
 		XSSFWorkbook workbook = new XSSFWorkbook(target);
