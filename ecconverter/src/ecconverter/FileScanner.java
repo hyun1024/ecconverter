@@ -10,10 +10,10 @@ import java.util.Queue;
 public class FileScanner {
 	
 	public String[] readFiles() {
-		File file = new File(Config.BASIC_PATH+"\\");
+		File file = new File(Config.TARGET_PATH+"\\");
 		if(!file.exists()) {
 			System.out.println("작업 대상 폴더를 찾을 수 없어, 폴더를 새로 생성합니다. 대상 폴더에 변환을 원하는 파일을 첨부 후 다시 시도해주세요.");
-			System.out.println("생성된 작업 대상 폴더 경로 :  " + Config.BASIC_PATH);
+			System.out.println("생성된 작업 대상 폴더 경로 :  " + Config.TARGET_PATH);
 			file.mkdir();
 			System.exit(0);
 		}
