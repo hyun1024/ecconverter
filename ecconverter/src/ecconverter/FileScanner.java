@@ -31,4 +31,12 @@ public class FileScanner {
 		target.close();
 		br.close();
 	}
+	public void findResultPath() {
+		File file = new File(Config.RESULT_PATH);
+		if(!file.exists()) {
+			System.out.println("결과 저장 폴더를 찾을 수 없어, 폴더를 새로 생성합니다. 해당 폴더에 변환된 파일이 저장됩니다.");
+			System.out.println("생성된 작업 대상 폴더 경로 :  " + Config.RESULT_PATH);
+			file.mkdir();
+		}
+	}	
 }
