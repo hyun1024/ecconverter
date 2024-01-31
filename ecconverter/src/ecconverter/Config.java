@@ -2,7 +2,9 @@ package ecconverter;
 
 public class Config {
 	//System settings
-	static String BASIC_PATH = System.getProperty("user.dir") + "\\targetfiles";
+	static String BASIC_PATH = System.getProperty("user.dir");
+	static String TARGET_PATH = BASIC_PATH + "\\targetfiles";
+	static String RESULT_PATH = BASIC_PATH + "\\resultfiles";
 	static String ENCODING_NAME = "MS949";
 	
 	
