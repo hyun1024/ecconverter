@@ -1,5 +1,6 @@
-package ecconverter;
+package worker;
 
+import config.Config;
 
 public class NameMaker {
 

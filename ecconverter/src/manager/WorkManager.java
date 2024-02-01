@@ -1,7 +1,12 @@
-package ecconverter;
+package manager;
 
 import java.io.IOException;
 import java.util.Queue;
+
+import converter.Converter;
+import worker.FileScanner;
+import worker.NameMaker;
+import worker.TaskSelector;
 
 
 public class WorkManager {

@@ -1,6 +1,8 @@
-package ecconverter;
+package worker;
 
 import java.util.*;
+
+import manager.ListManager;
 
 public class TaskSelector {
 	Scanner scanner = new Scanner(System.in);

@@ -1,5 +1,7 @@
 package ecconverter;
 
+import manager.WorkManager;
+
 public class Main {
 	
 	static WorkManager wm = new WorkManager();

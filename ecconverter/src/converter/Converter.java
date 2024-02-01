@@ -1,4 +1,4 @@
-package ecconverter;
+package converter;
 
 import java.io.IOException;
 
