@@ -19,15 +19,26 @@ public class WorkManager {
 	TaskSelector ts = new TaskSelector(lm);
 	
 	public void run() {
-		ts.setTask();
-		work(ts.getTaskNum());
+		fs.setInitFolder();
+		while(true) {
+			ts.setTask();
+			try {
+				work(ts.getTaskNum());
+			} catch (NullPointerException e) {
+				ts.resetTaskNum();
+				continue;
+			}
+
+			break;
+		}
+
 	}
 	public void work(int num){
 		try {
 			switch(num) {
 			case 1 : csvToExcel(); break;
 			case 2 : excelToCsv(); break;
-			
+			case 0 : exit(); break;
 			//TODO work Listup할 때 ts에서의 List랑 switch문 연동되도록
 			//TODO TaskSelector에서 escape하는데 2중으로 validation을 해야 할지 결정
 			default : System.out.println("작업 값이 손상되었습니다. 다시 시도해주세요.");
@@ -48,6 +59,10 @@ public class WorkManager {
 		String[] fileList = fs.readFiles();
 		lm.makeExcelWorkList(fileList);
 		int count = lm.getExcelListSize();
+		if(count==0) {
+			System.out.println("작업 대상 파일이 없어 프로그램을 종료합니다.");
+			System.exit(0);
+		}
 		System.out.println("총 작업 개수 [ "+count+" ] 개. 작업 시작");
 		
 		Converter cv = cm.createConverter("excel");		
@@ -73,6 +88,10 @@ public class WorkManager {
 		String[] fileList = fs.readFiles();
 		lm.makeCsvWorkList(fileList);
 		int count=csvList.size();
+		if(count==0) {
+			System.out.println("작업 대상 파일이 없어 프로그램을 종료합니다.");
+			System.exit(0);
+		}
 		System.out.println("총 작업 개수 [ "+count+" ] 개. 작업 시작");
 		
 		Converter cv = cm.createConverter("csv");
@@ -83,5 +102,10 @@ public class WorkManager {
 			System.out.println(targetName+" 작업 완료.");
 		}
 		System.out.println("---전체 작업 완료.---");
+	}
+	
+	public void exit() {
+		System.out.println("프로그램을 종료합니다.");
+		System.exit(0);
 	}
 }

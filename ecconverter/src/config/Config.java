@@ -5,6 +5,7 @@ public class Config {
 	public static String BASIC_PATH = System.getProperty("user.dir");
 	public static String TARGET_PATH = BASIC_PATH + "\\targetfiles";
 	public static String RESULT_PATH = BASIC_PATH + "\\resultfiles";
+	//TODO 읽는 설정과 쓰는 설정 구분하기
 	public static String ENCODING_NAME = "MS949";
 	
 	

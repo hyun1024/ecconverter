@@ -20,6 +20,7 @@ public class TaskSelector {
 	public void setInitialTaskList() {
 		workList.put(1, "csv->excel");
 		workList.put(2, "excel->csv");
+		workList.put(0, "exit");
 	}
 	
 	public int getTaskNum() {
@@ -36,8 +37,7 @@ public class TaskSelector {
 				taskNum=scanner.nextInt();
 			} catch (InputMismatchException e) {
 				System.out.println("입력값이 숫자가 아닙니다. 다시 확인해주세요.");
-				scanner.close();
-				scanner=new Scanner(System.in);
+				scanner.nextLine();
 				continue;
 			}
 			//작업 번호일 시 해당 작업번호 key 반환
@@ -46,5 +46,8 @@ public class TaskSelector {
 			}
 			System.out.println("유효한 작업 번호가 아닙니다. 다시 확인해주세요.");
 		}
+	}
+	public void resetTaskNum() {
+		taskNum=-1;
 	}
 }
