@@ -17,7 +17,6 @@ public class WorkManager {
 	FileScanner fs = new FileScanner();
 	ConverterManager cm = new ConverterManager(lm, fs, nm);
 	TaskSelector ts = new TaskSelector(lm);
-	
 	public void run() {
 		fs.setInitFolder();
 		while(true) {
