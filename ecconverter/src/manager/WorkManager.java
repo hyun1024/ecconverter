@@ -1,8 +1,6 @@
 package manager;
 
 import java.io.IOException;
-import java.util.Queue;
-
 import converter.Converter;
 import worker.FileScanner;
 import worker.NameMaker;
@@ -46,6 +44,7 @@ public class WorkManager {
 		String target;
 			while(!lm.getTargetList().isEmpty()) {
 				target = lm.nextTarget();
+				System.out.println(target+" 시작... ");
 				try {
 					cv.convert(lm.getExtension(target), target);
 				} catch (IOException e) {
