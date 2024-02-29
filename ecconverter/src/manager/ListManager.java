@@ -5,60 +5,45 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
 
+import org.apache.commons.io.FilenameUtils;
+
 public class ListManager {
-	//excel->csv 작업 시 필요한 리스트
-	Queue<String>xlsList;
-	Queue<String>xlsxList;
-	
-	
-	//csv->excel 작업 시 필요한 리스트
-	Queue<String>csvList;
+	//작업대상 file목록
+	Queue<String>targetList;
+	Map<String, String> extensionList;
+
+	//작업목록 ex)csv->excel
 	Map<Integer, String> workList;
 
-	public void initialExcelList() {
-		xlsList = new LinkedList<>();
-		xlsxList = new LinkedList<>();
-	}
-	public void initialCsvList() {
-		csvList = new LinkedList<>();
+	public void initialFileList() {
+		targetList=new LinkedList<>();
+		extensionList=new HashMap<>();
 	}
 	public void initialWorkList() {
-		workList = new HashMap<>();
+		workList=new HashMap<>();
 	}
-	public Queue<String> getXlsList() {
-		return xlsList;
-	}
-	public Queue<String> getXlsxList(){
-		return xlsxList;
-	}
-	public Queue<String> getCsvList(){
-		return csvList;
+	public Queue<String> getTargetList(){
+		return targetList;
 	}
 	public Map<Integer, String> getWorkList(){
 		return workList;
 	}
-	public int getExcelListSize() {
-		return xlsList.size() + xlsxList.size();
+	public Map<String, String> getExtensionList(){
+		return extensionList;
 	}
-	
-	public void makeExcelWorkList(String[] fileList) {
+
+	public void makeWorkLists(String[] fileList, String target) {
 		for(String name: fileList) {
-			if(name.contains(".xls") && !name.contains(".xlsx")) {
-				name = name.replaceAll(".xls", "");
-				xlsList.add(name);
-			}
-			if(name.contains(".xlsx")) {
-				name = name.replaceAll(".xlsx", "");
-				xlsxList.add(name);
+			if(FilenameUtils.getExtension(name).contains(target)) {
+				targetList.add(FilenameUtils.getBaseName(name));
+				extensionList.put(FilenameUtils.getBaseName(name), FilenameUtils.getExtension(name));
 			}
 		}
 	}
-	public void makeCsvWorkList(String[] fileList) {
-		for(String name: fileList) {
-			if(name.contains(".csv")) {
-				name=name.replaceAll(".csv", "");
-				csvList.add(name);
-			}
-		}
+	public String getExtension(String filename) {
+		return extensionList.get(filename);
+	}
+	public String nextTarget() {
+		return targetList.poll();
 	}
 }

@@ -10,11 +10,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 public class ExcelManager {
 	
 	String extension;
+	Workbook workbook;
+	
 	
 	public void setExtenstion(String extension) {
 		this.extension = extension;
 	}
-	public Workbook createWorkbookWithInitSheet(FileInputStream fs) throws IOException {
+	public Workbook createWorkbook(FileInputStream fs) throws IOException {
 		switch(extension) {
 			case "xls" : return new HSSFWorkbook(fs);
 			

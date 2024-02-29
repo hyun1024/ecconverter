@@ -15,6 +15,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import config.Config;
+import manager.ExcelManager;
 import manager.ListManager;
 import worker.FileScanner;
 import worker.NameMaker;
@@ -24,13 +25,15 @@ public class CsvToExcelConverter implements Converter{
 	ListManager lm;
 	NameMaker nm;
 	FileScanner fs;
+	ExcelManager em;
 	CellStyler cs = new CellStyler();
 	Queue<String[]> lineList = new LinkedList<>();
 	
-	public CsvToExcelConverter(ListManager lm, FileScanner fs, NameMaker nm) {
+	public CsvToExcelConverter(ListManager lm, FileScanner fs, NameMaker nm, ExcelManager em) {
 		this.lm=lm;
 		this.fs=fs;
 		this.nm=nm;
+		this.em=em;
 	}
 	public void convert(String type, String filename) throws IOException {
 		String TARGET_PATH = nm.readCsvName(filename);

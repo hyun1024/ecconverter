@@ -13,20 +13,22 @@ public class ConverterManager {
 	FileScanner fs;
 	ExcelToCsvConverter ec;
 	CsvToExcelConverter cc;
+	ExcelManager em;
 	
 	
-	public ConverterManager(ListManager lm, FileScanner fs, NameMaker nm) {
+	public ConverterManager(ListManager lm, FileScanner fs, NameMaker nm, ExcelManager em) {
 		this.lm=lm;
 		this.fs=fs;
 		this.nm=nm;
+		this.em=em;
 	}
 	
 	
 	public Converter createConverter(String convertTarget) {
 		fs.findResultPath();
 		switch(convertTarget) {
-		case "csv" : return new CsvToExcelConverter(lm, fs, nm);
-		case "excel" : return new ExcelToCsvConverter(lm, nm);
+		case "csv" : return new CsvToExcelConverter(lm, fs, nm, em);
+		case "xls" : return new ExcelToCsvConverter(lm, nm, em);
 		default: return null;
 		}
 	}

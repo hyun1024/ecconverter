@@ -9,6 +9,7 @@ import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -16,6 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import config.Config;
+import manager.ExcelManager;
 import manager.ListManager;
 import worker.NameMaker;
 
@@ -23,11 +25,13 @@ public class ExcelToCsvConverter implements Converter {
 
 	ListManager lm;
 	NameMaker nm;
+	ExcelManager em;
 	CellReader cellReader = new CellReader();
 	
-	public ExcelToCsvConverter(ListManager lm, NameMaker nm) {
+	public ExcelToCsvConverter(ListManager lm, NameMaker nm, ExcelManager em) {
 		this.lm=lm;
 		this.nm=nm;
+		this.em=em;
 	}
 	public void convert(String type, String filename) throws IOException {
 		if(type.equals("xls")) {
@@ -109,37 +113,7 @@ public class ExcelToCsvConverter implements Converter {
 	
 	
 	public class CellReader{
-		public String read(HSSFCell cell) {
-			String value = "";
-			CellType ct = cell.getCellType();
-			if(ct != null) {
-				switch(cell.getCellType()) {
-				case FORMULA:
-					value = cell.getCellFormula();
-					break;
-				case NUMERIC:
-					if(Math.rint(cell.getNumericCellValue()) == cell.getNumericCellValue()){
-						value=(int)cell.getNumericCellValue()+"";
-					} else {
-						value=cell.getNumericCellValue()+"";
-					}
-				    break;
-				case STRING:
-				    value=cell.getStringCellValue()+"";
-				    break;
-				case BOOLEAN:
-				    value=cell.getBooleanCellValue()+"";
-				    break;
-				case ERROR:
-				    value=cell.getErrorCellValue()+"";
-				    break;
-				default:
-					break;
-				}
-			}
-			return value; 
-		}
-		public String read(XSSFCell cell) {
+		public String read(Cell cell) {
 			String value = "";
 			CellType ct = cell.getCellType();
 			if(ct != null) {
