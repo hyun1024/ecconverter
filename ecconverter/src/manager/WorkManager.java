@@ -14,8 +14,9 @@ public class WorkManager {
 	NameMaker nm = new NameMaker();
 	FileScanner fs = new FileScanner();
 	ExcelManager em = new ExcelManager();
-	ConverterManager cm = new ConverterManager(lm, fs, nm, em);
+	ConverterManager cm = new ConverterManager(fs, nm, em);
 	TaskSelector ts = new TaskSelector(lm);
+	
 	public void run() {
 		fs.setInitFolder();
 		while(true) {
@@ -40,7 +41,9 @@ public class WorkManager {
 			System.exit(0);
 		}
 		System.out.println("총 작업 개수 [ "+count+" ] 개. 작업 시작");
-		Converter cv = cm.createConverter(extension);	
+		fs.findResultPath();
+		em.setExtenstion(extension);
+		Converter cv = cm.createConverter(extension);
 		String target;
 			while(!lm.getTargetList().isEmpty()) {
 				target = lm.nextTarget();

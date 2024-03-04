@@ -8,16 +8,13 @@ import worker.NameMaker;
 
 public class ConverterManager {
 	
-	ListManager lm;
 	NameMaker nm;
 	FileScanner fs;
-	ExcelToCsvConverter ec;
-	CsvToExcelConverter cc;
+	Converter converter;
 	ExcelManager em;
 	
 	
-	public ConverterManager(ListManager lm, FileScanner fs, NameMaker nm, ExcelManager em) {
-		this.lm=lm;
+	public ConverterManager(FileScanner fs, NameMaker nm, ExcelManager em) {
 		this.fs=fs;
 		this.nm=nm;
 		this.em=em;
@@ -25,10 +22,9 @@ public class ConverterManager {
 	
 	
 	public Converter createConverter(String convertTarget) {
-		fs.findResultPath();
 		switch(convertTarget) {
-		case "csv" : return new CsvToExcelConverter(lm, fs, nm, em);
-		case "xls" : return new ExcelToCsvConverter(lm, nm, em);
+		case "csv" : return new CsvToExcelConverter(fs, nm, em);
+		case "xls" : return new ExcelToCsvConverter(nm, em);
 		default: return null;
 		}
 	}

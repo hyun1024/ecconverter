@@ -23,22 +23,24 @@ import worker.NameMaker;
 
 public class ExcelToCsvConverter implements Converter {
 
-	ListManager lm;
 	NameMaker nm;
 	ExcelManager em;
 	CellReader cellReader = new CellReader();
 	
-	public ExcelToCsvConverter(ListManager lm, NameMaker nm, ExcelManager em) {
-		this.lm=lm;
+	public ExcelToCsvConverter(NameMaker nm, ExcelManager em) {
 		this.nm=nm;
 		this.em=em;
 	}
 	public void convert(String type, String filename) throws IOException {
-		if(type.equals("xls")) {
-			xlsToCsv(filename);
-		} else {
-			xlsxToCsv(filename);
+		switch (type) {
+		case "xls" : xlsToCsv(filename); break;
+		case "xlsx" : xlsxToCsv(filename); break;
 		}
+//		if(type.equals("xls")) {
+//			xlsToCsv(filename);
+//		} else {
+//			xlsxToCsv(filename);
+//		}
 	}
 	public void xlsToCsv(String filename) throws IOException {
 		String TARGET_PATH = nm.readXlsName(filename);

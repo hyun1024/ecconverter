@@ -22,15 +22,13 @@ import worker.NameMaker;
 
 public class CsvToExcelConverter implements Converter{
 	
-	ListManager lm;
+
 	NameMaker nm;
 	FileScanner fs;
 	ExcelManager em;
-	CellStyler cs = new CellStyler();
 	Queue<String[]> lineList = new LinkedList<>();
 	
-	public CsvToExcelConverter(ListManager lm, FileScanner fs, NameMaker nm, ExcelManager em) {
-		this.lm=lm;
+	public CsvToExcelConverter(FileScanner fs, NameMaker nm, ExcelManager em) {
 		this.fs=fs;
 		this.nm=nm;
 		this.em=em;
@@ -53,9 +51,9 @@ public class CsvToExcelConverter implements Converter{
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet sheet= workbook.createSheet("sheet");
 			sheet.setDefaultRowHeightInPoints(Config.ROW_HEIGHT);
-			cs.InitialStyle(workbook);
-			CellStyle title = cs.getCellStyle("title");
-			CellStyle value = cs.getCellStyle("value");
+			em.InitialStyle(workbook);
+			CellStyle title = em.getCellStyle("title");
+			CellStyle value = em.getCellStyle("value");
 			XSSFRow row;
 			XSSFCell cell;
 			int rowIndex=0;
@@ -100,9 +98,9 @@ public class CsvToExcelConverter implements Converter{
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet sheet= workbook.createSheet("sheet");
 			sheet.setDefaultRowHeightInPoints(16.5F);
-			cs.InitialStyle(workbook);
-			CellStyle title = cs.getCellStyle("title");
-			CellStyle value = cs.getCellStyle("value");
+			em.InitialStyle(workbook);
+			CellStyle title = em.getCellStyle("title");
+			CellStyle value = em.getCellStyle("value");
 			XSSFRow row;
 			XSSFCell cell;
 			int rowIndex=0;
@@ -160,26 +158,4 @@ public class CsvToExcelConverter implements Converter{
 		}
 
 	}
-    public class CellStyler{
-    	
-    	Map<String, CellStyle> styleList=new HashMap<>();
-    	public void InitialStyle(XSSFWorkbook workbook) {
-    		Font font = workbook.createFont();
-    		font.setFontName(Config.FONT_NAME);
-    		font.setFontHeightInPoints(Config.FONT_SIZE);
-    		CellStyle value = workbook.createCellStyle();
-    		value.setFont(font);
-    		value.setVerticalAlignment(VerticalAlignment.CENTER);
-    		styleList.put("value", value);
-    		CellStyle title = workbook.createCellStyle();
-    		title.setFont(font);
-    		title.setVerticalAlignment(VerticalAlignment.CENTER);
-    		title.setAlignment(HorizontalAlignment.CENTER);
-    		title.setBorderBottom(BorderStyle.THIN);
-    		styleList.put("title", title);
-    	}
-    	public CellStyle getCellStyle(String styleName) {
-    		return styleList.get(styleName);
-    	}
-    }
 }
