@@ -36,6 +36,16 @@ public class ExcelManager {
 		}
 	}
 	
+	public Workbook createWorkbook(FileInputStream fs, String extensions) throws IOException {
+		switch(extensions) {
+			case "xls" : return new HSSFWorkbook(fs);
+			
+			case "xlsx" : return new XSSFWorkbook(fs);
+						  
+			default: System.out.println("dd"); return new XSSFWorkbook(fs);
+		}
+	}
+	
     public void InitialStyle(Workbook workbook) {
     	Font font = workbook.createFont();
     	font.setFontName(Config.FONT_NAME);

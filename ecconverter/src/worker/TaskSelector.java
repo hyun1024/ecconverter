@@ -10,7 +10,7 @@ public class TaskSelector {
 	ListManager lm;
 	Map<Integer, String> workList;
 	int taskNum=-1;
-	String target;
+	String targetExtension;
 	public TaskSelector(ListManager lm) {
 		lm.initialWorkList();
 		this.workList = lm.getWorkList();
@@ -22,7 +22,7 @@ public class TaskSelector {
 		workList.put(2, "excel->csv");
 		workList.put(0, "exit");
 	}
-	public String setTask() {
+	public void setTask() {
 		StringBuilder sb = new StringBuilder();
 		System.out.println("필요한 작업 번호를 입력해주세요 ex) 1");
 		for(Map.Entry<Integer, String> entry : workList.entrySet()) {
@@ -41,12 +41,16 @@ public class TaskSelector {
 			//작업 번호일 시 해당 작업번호 value 반환
 			if(workList.get(taskNum)!=null) {
 				switch(taskNum) {
-				case 1: return "csv";
-				case 2: return "xls";
+				case 1: targetExtension = "csv"; return;
+				case 2: targetExtension = "xls"; return;
+				case 0: System.exit(0);
 				}
 			}
 			System.out.println("유효한 작업 번호가 아닙니다. 다시 확인해주세요.");
 		}
+	}
+	public String getTargetExtension() {
+		return targetExtension;
 	}
 	public void resetTaskNum() {
 		taskNum=-1;

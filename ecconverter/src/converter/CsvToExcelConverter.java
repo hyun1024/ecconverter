@@ -22,7 +22,7 @@ import worker.NameMaker;
 
 public class CsvToExcelConverter implements Converter{
 	
-
+	static String RESULT_EXTENSION = "xlsx";
 	NameMaker nm;
 	FileScanner fs;
 	ExcelManager em;
@@ -33,8 +33,8 @@ public class CsvToExcelConverter implements Converter{
 		this.nm=nm;
 		this.em=em;
 	}
-	public void convert(String type, String filename) throws IOException {
-		String TARGET_PATH = nm.readCsvName(filename);
+	public void convert(String filename) throws IOException {
+		String TARGET_PATH = nm.createReadPath(filename);
 		fs.makeList(TARGET_PATH, lineList);
 		int reference=Config.MAX_ROW_COUNT*2;
 		if(lineList.size()>reference) {
@@ -45,9 +45,8 @@ public class CsvToExcelConverter implements Converter{
 			csvToXlsx(filename);
 		}
 	}
-	
 	public void csvToXlsx(String filename) throws IOException{
-			String CREATE_PATH = nm.createXlsxName(filename);
+			String CREATE_PATH = nm.createResultPath(filename, RESULT_EXTENSION);
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet sheet= workbook.createSheet("sheet");
 			sheet.setDefaultRowHeightInPoints(Config.ROW_HEIGHT);

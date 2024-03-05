@@ -1,5 +1,7 @@
 package worker;
 
+import org.apache.commons.io.FilenameUtils;
+
 import config.Config;
 
 public class NameMaker {
@@ -24,6 +26,12 @@ public class NameMaker {
 	}
 	public String readXlsxName(String filename) {
 		return Config.TARGET_PATH+"\\"+filename+".xlsx";
+	}
+	public String createReadPath(String filename) {
+		return Config.TARGET_PATH+"\\"+filename;
+	}
+	public String createResultPath(String filename, String extension) {
+		return Config.RESULT_PATH+"\\"+FilenameUtils.getBaseName(filename)+"."+extension;
 	}
 	public String createNumberingXlsxName(String filename, int count) {
 		return Config.RESULT_PATH+"\\"+filename+"_"+count+".xlsx";

@@ -40,6 +40,13 @@ public class ListManager {
 			}
 		}
 	}
+	public void makeWorkList(String[] fileList, String target) {
+		for(String name: fileList) {
+			if(FilenameUtils.getExtension(name).contains(target)) {
+				targetList.add(name);
+			}
+		}
+	}
 	public String getExtension(String filename) {
 		return extensionList.get(filename);
 	}

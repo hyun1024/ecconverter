@@ -1,6 +1,9 @@
 package manager;
 
 import java.io.IOException;
+
+import org.apache.commons.io.FilenameUtils;
+
 import converter.Converter;
 import worker.FileScanner;
 import worker.NameMaker;
@@ -21,7 +24,8 @@ public class WorkManager {
 		fs.setInitFolder();
 		while(true) {
 			try {
-				work(ts.setTask());
+				ts.setTask();
+				work(ts.getTargetExtension());
 			} catch (NullPointerException e) {
 				ts.resetTaskNum();
 				continue;
@@ -31,10 +35,9 @@ public class WorkManager {
 		}
 
 	}
-	//새로운 버전
 	public void work(String extension) {
 		lm.initialFileList();
-		lm.makeWorkLists(fs.readFiles(), extension);
+		lm.makeWorkList(fs.readFiles(), extension);
 		int count = lm.getTargetList().size();
 		if(count==0) {
 			System.out.println("작업 대상 파일이 없어 프로그램을 종료합니다.");
@@ -47,14 +50,14 @@ public class WorkManager {
 		String target;
 			while(!lm.getTargetList().isEmpty()) {
 				target = lm.nextTarget();
-				System.out.println(target+" 시작... ");
+				System.out.println(FilenameUtils.getBaseName(target)+" 시작... ");
 				try {
-					cv.convert(lm.getExtension(target), target);
+					cv.convert(target);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				System.out.println(target+" 작업 완료. [ " + (count-lm.getTargetList().size())+" / "+count+" ]");
+				System.out.println(FilenameUtils.getBaseName(target)+" 작업 완료. [ " + (count-lm.getTargetList().size())+" / "+count+" ]");
 			}
 		System.out.println("---전체 작업 완료.---");
 	}

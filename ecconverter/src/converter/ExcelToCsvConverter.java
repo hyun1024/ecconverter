@@ -4,6 +4,7 @@ import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.output.FileWriterWithEncoding;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -11,6 +12,9 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -26,38 +30,29 @@ public class ExcelToCsvConverter implements Converter {
 	NameMaker nm;
 	ExcelManager em;
 	CellReader cellReader = new CellReader();
+	static String RESULT_EXTENSION = "csv";
 	
 	public ExcelToCsvConverter(NameMaker nm, ExcelManager em) {
 		this.nm=nm;
 		this.em=em;
 	}
-	public void convert(String type, String filename) throws IOException {
-		switch (type) {
-		case "xls" : xlsToCsv(filename); break;
-		case "xlsx" : xlsxToCsv(filename); break;
-		}
-//		if(type.equals("xls")) {
-//			xlsToCsv(filename);
-//		} else {
-//			xlsxToCsv(filename);
-//		}
-	}
-	public void xlsToCsv(String filename) throws IOException {
-		String TARGET_PATH = nm.readXlsName(filename);
-		String CREATE_PATH = nm.createCsvName(filename);
-
+	
+	public void convert(String filename) throws IOException{
+		String TARGET_PATH = nm.createReadPath(filename);
+		String RESULT_PATH = nm.createResultPath(filename, RESULT_EXTENSION);
+		
 		FileInputStream target= new FileInputStream(TARGET_PATH);
-		HSSFWorkbook workbook = new HSSFWorkbook(target);
-		HSSFSheet sheet= workbook.getSheetAt(0);
-		BufferedWriter bw= new BufferedWriter(new FileWriterWithEncoding(CREATE_PATH, Config.ENCODING_NAME));
+		Workbook workbook = em.createWorkbook(target, FilenameUtils.getExtension(filename));
+		Sheet sheet = workbook.getSheetAt(0);
+		BufferedWriter bw= new BufferedWriter(new FileWriterWithEncoding(RESULT_PATH, Config.ENCODING_NAME));
 		Boolean escape;
 		for(int i=sheet.getFirstRowNum(); i<=sheet.getLastRowNum(); i++) {
-			HSSFRow row = sheet.getRow(i);
+			Row row = sheet.getRow(i);
 			for(int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) {
 				if(j!=row.getFirstCellNum()) {
 					bw.write(",");
 				}
-				HSSFCell cell = row.getCell(j);
+				Cell cell = row.getCell(j);
 				String cellValue=cellReader.read(cell);
 				escape=false;
 				if(cellValue.contains(",") || cellValue.contains("\"")) {
@@ -78,41 +73,6 @@ public class ExcelToCsvConverter implements Converter {
 		 workbook.close();
 		 target.close();
 	}
-	public void xlsxToCsv(String filename) throws IOException {
-		String TARGET_PATH = nm.readXlsxName(filename);
-		String CREATE_PATH = nm.createCsvName(filename);
-		FileInputStream target= new FileInputStream(TARGET_PATH);
-		XSSFWorkbook workbook = new XSSFWorkbook(target);
-		XSSFSheet sheet= workbook.getSheetAt(0);
-		BufferedWriter bw= new BufferedWriter(new FileWriterWithEncoding(CREATE_PATH, Config.ENCODING_NAME));
-		for(int i=sheet.getFirstRowNum(); i<=sheet.getLastRowNum(); i++) {
-			XSSFRow row = sheet.getRow(i);
-			for(int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) {
-				if(j!=row.getFirstCellNum()) {
-					bw.write(",");
-				}
-				XSSFCell cell = row.getCell(j);
-				String cellValue=cellReader.read(cell);
-				Boolean escape=false;
-				if(cellValue.contains(",") || cellValue.contains("\"")) {
-					cellValue = cellValue.replaceAll("\"", "\"\"");
-					bw.write("\"");
-					escape=true;
-				}
-				bw.write(cellValue);
-				if(escape) {
-					bw.write("\"");
-					escape=false;
-				}
-			}	
-			bw.newLine();
-		}
-		 bw.flush();
-		 bw.close();
-		 workbook.close();
-		 target.close();
-	}
-	
 	
 	public class CellReader{
 		public String read(Cell cell) {
