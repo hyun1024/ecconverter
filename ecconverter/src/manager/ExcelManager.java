@@ -42,7 +42,7 @@ public class ExcelManager {
 			
 			case "xlsx" : return new XSSFWorkbook(fs);
 						  
-			default: System.out.println("dd"); return new XSSFWorkbook(fs);
+			default: return new XSSFWorkbook(fs);
 		}
 	}
 	
