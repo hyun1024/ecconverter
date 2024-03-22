@@ -35,7 +35,7 @@ public class WorkManager {
 		}
 
 	}
-	public void work(String extension) {
+	public void work(String extension){
 		lm.initialFileList();
 		lm.makeWorkList(fs.readFiles(), extension);
 		int count = lm.getTargetList().size();
@@ -47,13 +47,14 @@ public class WorkManager {
 		fs.findResultPath();
 		em.setExtenstion(extension);
 		Converter cv = cm.createConverter(extension);
+		em.setSheetWidth();
 		String target;
 			while(!lm.getTargetList().isEmpty()) {
 				target = lm.nextTarget();
 				System.out.println(FilenameUtils.getBaseName(target)+" 시작... ");
 				try {
 					cv.convert(target);
-				} catch (IOException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
