@@ -53,9 +53,9 @@ public class ExcelToCsvConverter implements Converter {
 		this.em=em;
 	}
 	
-	public void convert(String filename) throws Exception {
+	public void convert(String filename, String delimiter) throws Exception {
 		if(FilenameUtils.getExtension(filename).equals("xls")) {
-			xls(filename);
+			xls(filename, delimiter);
 			return;
 		}
 		IOUtils.setByteArrayMaxOverride(Integer.MAX_VALUE);
@@ -85,14 +85,14 @@ public class ExcelToCsvConverter implements Converter {
 		List<String> header = excelHandler.getHeader();
 		for (int i = 0; i < header.size(); i++) {
 			if(i!=0) {
-				bw.write(",");
+				bw.write(delimiter);
 			}
 			escape=false;
 			if(header.get(i)==null) {
 				continue;
 			}
 			String cellValue=header.get(i);
-			if(cellValue.contains(",") || cellValue.contains("\"")){
+			if(cellValue.contains(delimiter) || cellValue.contains("\"")){
 				cellValue = new String(cellValue.replaceAll("\"", "\"\""));
 				bw.write("\"");
 				escape=true;
@@ -108,14 +108,14 @@ public class ExcelToCsvConverter implements Converter {
 			
 			for (int i = 0; i < row.size(); i++) {
 				if(i!=0) {
-					bw.write(",");
+					bw.write(delimiter);
 				}
 				escape=false;
 				if(row.get(i)==null) {
 					continue;
 				}
 				String cellValue=row.get(i);
-				if(cellValue.contains(",") || cellValue.contains("\"")){
+				if(cellValue.contains(delimiter) || cellValue.contains("\"")){
 					cellValue = new String(cellValue.replaceAll("\"", "\"\""));
 					bw.write("\"");
 					escape=true;
@@ -131,7 +131,7 @@ public class ExcelToCsvConverter implements Converter {
 		bw.flush();
 		bw.close();
 	}
-	public void xls(String filename) throws IOException{
+	public void xls(String filename, String delimiter) throws IOException{
 
 		String TARGET_PATH = nm.createReadPath(filename);
 		String RESULT_PATH = nm.createResultPath(filename, RESULT_EXTENSION);
@@ -155,12 +155,12 @@ public class ExcelToCsvConverter implements Converter {
 			row = sheet.getRow(i);
 			for(int j=row.getFirstCellNum(); j<row.getLastCellNum(); j++) {
 				if(j!=row.getFirstCellNum()) {
-					bw.write(",");
+					bw.write(delimiter);
 				}
 				cell = row.getCell(j);
 				String cellValue=new String(cellReader.read(cell));
 				escape=false;
-				if(cellValue.contains(",") || cellValue.contains("\"")){
+				if(cellValue.contains(delimiter) || cellValue.contains("\"")){
 					cellValue = new String(cellValue.replaceAll("\"", "\"\""));
 					bw.write("\"");
 					escape=true;

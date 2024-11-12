@@ -41,10 +41,10 @@ public class CsvToExcelConverter implements Converter{
 		this.nm=nm;
 		this.em=em;
 	}
-	public void convert(String filename) throws IOException{
+	public void convert(String filename, String delimiter) throws IOException{
 		String CREATE_PATH = nm.createResultPath(filename, RESULT_EXTENSION);
 		String TARGET_PATH = nm.createReadPath(filename);
-		fs.makeList(TARGET_PATH, lineList);
+		fs.makeList(TARGET_PATH, lineList, delimiter);
 		SXSSFWorkbook workbook = new SXSSFWorkbook();
 		SXSSFSheet sheet= workbook.createSheet("sheet");
 		sheet.setDefaultRowHeightInPoints(Config.ROW_HEIGHT);

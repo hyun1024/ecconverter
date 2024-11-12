@@ -4,6 +4,7 @@ import converter.Converter;
 import converter.CsvToExcelConverter;
 import converter.ExcelToCsvConverter;
 import worker.FileScanner;
+import worker.Logger;
 import worker.NameMaker;
 
 public class ConverterManager {
@@ -12,7 +13,6 @@ public class ConverterManager {
 	FileScanner fs;
 	Converter converter;
 	ExcelManager em;
-	
 	
 	public ConverterManager(FileScanner fs, NameMaker nm, ExcelManager em) {
 		this.fs=fs;

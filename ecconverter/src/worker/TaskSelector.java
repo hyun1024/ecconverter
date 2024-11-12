@@ -5,15 +5,21 @@ import java.util.*;
 import manager.ListManager;
 
 public class TaskSelector {
+	Logger logger;
+	
+	
 	Scanner scanner = new Scanner(System.in);
 	
 	ListManager lm;
 	Map<Integer, String> workList;
 	int taskNum=-1;
 	String targetExtension;
-	public TaskSelector(ListManager lm) {
+	
+	
+	public TaskSelector(ListManager lm,Logger logger) {
 		lm.initialWorkList();
 		this.workList = lm.getWorkList();
+		this.logger = logger;
 		setInitialTaskList();
 	}
 	//TODO 나중에 분리해서 동적 생성
@@ -22,7 +28,7 @@ public class TaskSelector {
 		workList.put(2, "excel->csv");
 		workList.put(0, "exit");
 	}
-	public void setTask() {
+	public void setTask() throws Exception{
 		StringBuilder sb = new StringBuilder();
 		System.out.println("필요한 작업 번호를 입력해주세요 ex) 1");
 		for(Map.Entry<Integer, String> entry : workList.entrySet()) {
@@ -41,8 +47,12 @@ public class TaskSelector {
 			//작업 번호일 시 해당 작업번호 value 반환
 			if(workList.get(taskNum)!=null) {
 				switch(taskNum) {
-				case 1: targetExtension = "csv"; return;
-				case 2: targetExtension = "xls"; return;
+				case 1: targetExtension = "csv";
+						logger.writeLog("선택된 작업 : "+workList.get(taskNum), true);
+				return;
+				case 2: targetExtension = "xls";
+						logger.writeLog("선택된 작업 : "+workList.get(taskNum), true);
+				return;
 				case 0: System.exit(0);
 				}
 			}

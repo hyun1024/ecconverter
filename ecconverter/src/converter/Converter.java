@@ -4,5 +4,5 @@ import java.io.IOException;
 
 public interface Converter {
 
-	public void convert(String filename) throws Exception;
+	public void convert(String filename, String delimiter) throws Exception;
 }

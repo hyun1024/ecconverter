@@ -31,7 +31,8 @@ public class ExcelManager {
 	}
 	//autosize 대체로 본인 양식에 맞게 변경
 	public void setSheetWidth() {
-		sheetWidth.add(58);
+
+  		sheetWidth.add(58);
 		sheetWidth.add(169);
 		sheetWidth.add(110);
 		sheetWidth.add(38);
@@ -48,8 +49,17 @@ public class ExcelManager {
 		sheetWidth.add(40);
 		sheetWidth.add(69);
 	}
+	public void addWidthConfig(List<Integer> widthList) {
+		if(widthList==null) {
+			setSheetWidth();
+			return;
+		}
+		for(int size : widthList) {
+			sheetWidth.add(size);
+		}
+	}
 	public Integer getSheetWidth(int column) {
-		if(sheetWidth.get(column)==null) {
+		if(column>=sheetWidth.size() || sheetWidth.get(column)==null) {
 			return DEFAULT_WIDTH;
 		}
 		return sheetWidth.get(column);
@@ -84,7 +94,6 @@ public class ExcelManager {
     }
 	public void setColumnWidth(Sheet sheet, int columnCount, Boolean isUsingAutoSizeColumn) {
 		//autoSizeColumn 속도로 인해 적절한 columnWidth 직접 리스트화해서 사용.
-
 		for(int j=0; j<columnCount; j++) {
 			if(isUsingAutoSizeColumn) {
 				sheet.autoSizeColumn(j);
