@@ -116,10 +116,11 @@ public class ExcelToCsvConverter implements Converter {
 				}
 				String cellValue=row.get(i);
 				if(cellValue.contains(delimiter) || cellValue.contains("\"")){
-					cellValue = new String(cellValue.replaceAll("\"", "\"\""));
+					cellValue = cellValue.replaceAll("\"", "\"\"");
 					bw.write("\"");
 					escape=true;
 				}
+				cellValue = cellValue.replaceAll("\\r|\\n|\\r\\n", "");
 				bw.write(cellValue);
 				if(escape) {
 					bw.write("\"");
