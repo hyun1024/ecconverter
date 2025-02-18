@@ -160,13 +160,14 @@ public class ExcelToCsvConverter implements Converter {
 					bw.write(delimiter);
 				}
 				cell = row.getCell(j);
-				String cellValue=new String(cellReader.read(cell));
+				String cellValue= cellReader.read(cell);
 				escape=false;
 				if(cellValue.contains(delimiter) || cellValue.contains("\"")){
-					cellValue = new String(cellValue.replaceAll("\"", "\"\""));
+					cellValue = cellValue.replaceAll("\"", "\"\"");
 					bw.write("\"");
 					escape=true;
 				}
+				cellValue = cellValue.replaceAll("\\r|\\n|\\r\\n", "");
 				bw.write(cellValue);
 				if(escape) {
 					bw.write("\"");
