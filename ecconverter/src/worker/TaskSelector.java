@@ -26,6 +26,7 @@ public class TaskSelector {
 	public void setInitialTaskList() {
 		workList.put(1, "csv->excel");
 		workList.put(2, "excel->csv");
+		workList.put(3, "txt->excel");
 		workList.put(0, "exit");
 	}
 	public void setTask() throws Exception{
@@ -51,6 +52,9 @@ public class TaskSelector {
 						logger.writeLog("선택된 작업 : "+workList.get(taskNum), true);
 				return;
 				case 2: targetExtension = "xls";
+						logger.writeLog("선택된 작업 : "+workList.get(taskNum), true);
+				return;
+				case 3: targetExtension = "txt";
 						logger.writeLog("선택된 작업 : "+workList.get(taskNum), true);
 				return;
 				case 0: System.exit(0);

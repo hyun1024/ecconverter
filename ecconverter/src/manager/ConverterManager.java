@@ -25,6 +25,7 @@ public class ConverterManager {
 		switch(convertTarget) {
 		case "csv" : return new CsvToExcelConverter(fs, nm, em);
 		case "xls" : return new ExcelToCsvConverter(nm, em);
+		case "txt" : return new CsvToExcelConverter(fs, nm, em);
 		default: return null;
 		}
 	}
