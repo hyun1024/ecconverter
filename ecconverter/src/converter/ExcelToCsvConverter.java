@@ -3,11 +3,9 @@ package converter;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.parsers.SAXParser;
@@ -15,12 +13,10 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.output.FileWriterWithEncoding;
-import org.apache.poi.openxml4j.exceptions.OpenXML4JException;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
-import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -28,11 +24,9 @@ import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.eventusermodel.ReadOnlySharedStringsTable;
 import org.apache.poi.xssf.eventusermodel.XSSFReader;
 import org.apache.poi.xssf.eventusermodel.XSSFSheetXMLHandler;
-import org.apache.poi.xssf.model.SharedStrings;
-import org.apache.poi.xssf.model.SharedStringsTable;
+
 import org.apache.poi.xssf.model.StylesTable;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
@@ -79,7 +73,7 @@ public class ExcelToCsvConverter implements Converter {
 		xmlReader.setContentHandler(handle);
 		xmlReader.parse(inputSource);
 		sheetStream.close();
-		BufferedWriter bw= new BufferedWriter(new FileWriterWithEncoding(nm.createResultPath(filename, RESULT_EXTENSION), Config.ENCODING_NAME));
+		BufferedWriter bw= new BufferedWriter(new FileWriterWithEncoding(nm.createResultPath(filename, RESULT_EXTENSION), Config.WRITE_ENCODING_NAME));
 		opc.close();
 		Boolean escape;
 		List<String> header = excelHandler.getHeader();
@@ -149,8 +143,8 @@ public class ExcelToCsvConverter implements Converter {
 		Boolean escape;
 		int rowNum=sheet.getFirstRowNum();
 		boolean cont=true;
-		BufferedWriter bw= new BufferedWriter(new FileWriterWithEncoding(RESULT_PATH, Config.ENCODING_NAME));
-		
+		BufferedWriter bw= new BufferedWriter(new FileWriterWithEncoding(RESULT_PATH, Config.WRITE_ENCODING_NAME));
+	
 		Row row;
 		Cell cell;
 		for(int i=sheet.getFirstRowNum(); i<=sheet.getLastRowNum(); i++) {

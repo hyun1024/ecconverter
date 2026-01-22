@@ -93,7 +93,7 @@ public class ExcelManager {
     	return styleList.get(styleName);
     }
 	public void setColumnWidth(Sheet sheet, int columnCount, Boolean isUsingAutoSizeColumn) {
-		//autoSizeColumn 속도로 인해 적절한 columnWidth 직접 리스트화해서 사용.
+		//autoSizeColumn 속도로 인해 적절한 columnWidth 직접 리스트화할 때 사용.
 		for(int j=0; j<columnCount; j++) {
 			if(isUsingAutoSizeColumn) {
 				sheet.autoSizeColumn(j);
@@ -104,4 +104,11 @@ public class ExcelManager {
 		
 		
 	}
+	public void setColumnWidth(Sheet sheet, int columnCount, int[] maxColumnSize) {
+		for(int i=1; i<=columnCount; i++) {
+			sheet.setColumnWidth(i-1, (330)+maxColumnSize[i-1]*8*37);
+		}
+	}
+		
+		
 }

@@ -29,7 +29,7 @@ public class WorkManager {
 		fs.setInitFolder();
 		logger.setLogFile();
 		delimiter = fs.setDelimiter();
-		em.addWidthConfig(fs.readWidthConfig());
+		//em.addWidthConfig(fs.readWidthConfig());
 		while(true) {
 			try {
 				ts.setTask();

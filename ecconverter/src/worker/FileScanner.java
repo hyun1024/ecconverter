@@ -46,6 +46,9 @@ public class FileScanner {
 		return delimiter;
 		
 	}
+	public String setEncoding() throws Exception {
+		return null;
+	}
 	public String[] readFiles() throws Exception{
 		File file = new File(Config.TARGET_PATH+"\\");
 		if(!file.exists()) {
@@ -93,7 +96,7 @@ public class FileScanner {
 			del = "\\|";
 		}
 		
-		BufferedReader br = new BufferedReader(new InputStreamReader(target, Config.ENCODING_NAME));
+		BufferedReader br = new BufferedReader(new InputStreamReader(target, Config.READ_ENCODING_NAME));
         String line;
         while((line = br.readLine())!=null) {
             String[] lineContents = line.split(del+"(?=([^\"]*\"[^\"]*\")*[^\"]*$)",-1);

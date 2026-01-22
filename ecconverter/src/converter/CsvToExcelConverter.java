@@ -3,7 +3,7 @@ package converter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.util.*;
 import java.util.Queue;
 
 import org.apache.commons.io.FilenameUtils;
@@ -55,6 +55,8 @@ public class CsvToExcelConverter implements Converter{
 		Cell cell;
 		int rowIndex = 0;
 		int columnCount = 0;
+		//반복문 전체 돌기 전엔 엑셀 column수 파악 안됨. 임시 배열
+		int[] maxColumnSize = new int[1000];
 		while(!lineList.isEmpty()) {
 			String[] targetString = lineList.poll();
 			row = sheet.createRow(rowIndex++);
@@ -66,13 +68,14 @@ public class CsvToExcelConverter implements Converter{
 				cell = row.createCell(i);
 				cell.setCellValue(targetString[i]);
 				cell.setCellStyle(value);
+				maxColumnSize[i] = Math.max(maxColumnSize[i], getWeightedLength(targetString[i]));
 				if(rowIndex==1) {
 					cell.setCellStyle(title);
 					columnCount++;
 				}
 			}
 		}
-		em.setColumnWidth(sheet, columnCount, USE_AUTO_SIZE_COLUMN);
+		em.setColumnWidth(sheet, columnCount, maxColumnSize);
 
 		FileOutputStream os = new FileOutputStream(CREATE_PATH);
 		try {
@@ -86,5 +89,30 @@ public class CsvToExcelConverter implements Converter{
 			os.close();
 			System.exit(0);
 		}
+	}
+	private int getWeightedLength(String value) {
+	    if (value == null || value.trim().isEmpty()) {
+	        return 0;
+	    }
+
+	    float len = 0;
+	    for (int i = 0; i < value.length(); i++) {
+	        char ch = value.charAt(i);
+
+	        // 완성형 한글 (가 ~ 힣)
+	        if (ch >= 0xAC00 && ch <= 0xD7A3) {
+	            len += 1.6;
+	        }
+	        // 한글 자모 (ㄱ ~ ㅎ, ㅏ ~ ㅣ)
+	        else if (ch >= 0x3131 && ch <= 0x318E) {
+	            len += 1.6;
+	        }
+	        // 그 외 (영문, 숫자, 특수문자 등)
+	        else {
+	            len += 0.9;
+	        }
+	    }
+
+	    return Math.round(len);
 	}
 }
